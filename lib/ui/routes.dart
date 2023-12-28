@@ -5,9 +5,12 @@ import 'package:orm_album_future_builder/ui/main/main_screen.dart';
 final routes = GoRouter(
     initialLocation: '/',
     routes: [
-      GoRoute(path: '/', builder: (_, __) => const MainScreen(),
+      GoRoute(path: '/', builder: (_, __) => MainScreen(),
         routes: [
-          GoRoute(path: 'detail', builder: (_, __) => const DetailScreen())
+          GoRoute(path: 'detail', builder: (_, state) {
+            final int id = int.parse(state.uri.queryParameters['id']!);
+            return DetailScreen(id: id);
+          })
         ],
       ),
     ]
