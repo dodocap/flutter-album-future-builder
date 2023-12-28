@@ -1,9 +1,11 @@
 class Photo {
+  int id;
   String title;
   String url;
   String thumbnailUrl;
 
   Photo({
+    required this.id,
     required this.title,
     required this.url,
     required this.thumbnailUrl,
@@ -11,6 +13,6 @@ class Photo {
 
   @override
   String toString() {
-    return 'Photo{title: $title, url: $url, thumbnailUrl: $thumbnailUrl}';
+    return 'Photo{id: $id, title: $title, url: $url, thumbnailUrl: $thumbnailUrl}';
   }
 }
