@@ -33,7 +33,7 @@ class MainScreen extends StatelessWidget {
               final Album album = albumList[index];
               return MainViewModel(
                 album: album,
-                onAlbumClicked: (id, title) {
+                onAlbumPressed: (id, title) {
                   context.push(Uri(
                     path: '/detail',
                     queryParameters: {
