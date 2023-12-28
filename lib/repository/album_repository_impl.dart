@@ -19,8 +19,8 @@ class AlbumRepositoryImpl implements AlbumRepository {
   }
 
   @override
-  Future<List<Photo>> getPhotos() async {
-    final List<PhotoDto> photoDto = await _api.getPhotos();
+  Future<List<Photo>> getPhotos(String id) async {
+    final List<PhotoDto> photoDto = await _api.getPhotos(id);
 
     return photoDto.map((e) => e.mapper()).toList();
   }

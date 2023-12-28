@@ -16,8 +16,8 @@ class JsonPlaceholderAlbumApiImpl implements AlbumApi {
   }
 
   @override
-  Future<List<PhotoDto>> getPhotos() async {
-    final http.Response response = await http.get(Uri.parse('https://jsonplaceholder.typicode.com/photos'));
+  Future<List<PhotoDto>> getPhotos(String id) async {
+    final http.Response response = await http.get(Uri.parse('https://jsonplaceholder.typicode.com/albums/$id/photos'));
 
     final list = jsonDecode(response.body) as List<dynamic>;
 
