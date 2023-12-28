@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class PhotoScreen extends StatelessWidget {
@@ -15,6 +18,11 @@ class PhotoScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(_title)),
+      body: Center(
+        child: CachedNetworkImage(
+          imageUrl: _url,
+        ),
+      ),
     );
   }
 }
