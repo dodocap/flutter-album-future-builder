@@ -9,7 +9,8 @@ final routes = GoRouter(
         routes: [
           GoRoute(path: 'detail', builder: (_, state) {
             final int id = int.parse(state.uri.queryParameters['id']!);
-            return DetailScreen(id: id);
+            final String title = state.uri.queryParameters['title']!;
+            return DetailScreen(id: id, title: title);
           })
         ],
       ),

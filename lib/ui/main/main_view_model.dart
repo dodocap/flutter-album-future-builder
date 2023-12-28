@@ -4,7 +4,7 @@ import 'package:orm_album_future_builder/model/album.dart';
 
 class MainViewModel extends StatelessWidget {
   final Album _album;
-  final void Function(String) onAlbumClicked;
+  final void Function(String id, String title) onAlbumClicked;
 
   const MainViewModel({
     super.key,
@@ -16,7 +16,7 @@ class MainViewModel extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(_album.title),
-      onTap: () => onAlbumClicked(_album.id.toString()),
+      onTap: () => onAlbumClicked(_album.id.toString(), _album.title),
       trailing: const Icon(Icons.navigate_next),
     );
   }

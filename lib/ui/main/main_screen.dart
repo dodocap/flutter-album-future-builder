@@ -33,10 +33,13 @@ class MainScreen extends StatelessWidget {
               final Album album = albumList[index];
               return MainViewModel(
                 album: album,
-                onAlbumClicked: (data) {
+                onAlbumClicked: (id, title) {
                   context.push(Uri(
                     path: '/detail',
-                    queryParameters: {'id': data},
+                    queryParameters: {
+                      'id': id,
+                      'title': title
+                    },
                   ).toString());
                 },
               );
