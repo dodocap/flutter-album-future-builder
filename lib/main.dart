@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:orm_album_future_builder/ui/routes.dart';
 
 void main() {
   runApp(const MyApp());
@@ -9,7 +10,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
+      routerConfig: routes,
       title: '퓨처빌더를 활용한 앨범',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
