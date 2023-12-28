@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:orm_album_future_builder/model/album.dart';
 import 'package:orm_album_future_builder/repository/album_repository.dart';
 import 'package:orm_album_future_builder/repository/album_repository_impl.dart';
+import 'package:orm_album_future_builder/ui/main/main_view_model.dart';
 
 class MainScreen extends StatelessWidget {
   final AlbumRepository albumRepository = AlbumRepositoryImpl();
@@ -30,17 +31,14 @@ class MainScreen extends StatelessWidget {
             itemCount: albumList.length,
             itemBuilder: (context, index) {
               final Album album = albumList[index];
-              return ListTile(
-                title: Text(album.title),
-                onTap: () {
-                  context.push(
-                    Uri(
-                      path: '/detail',
-                      queryParameters: { 'id' : album.id.toString() }
-                    ).toString()
-                  );
+              return MainViewModel(
+                album: album,
+                onAlbumClicked: (data) {
+                  context.push(Uri(
+                    path: '/detail',
+                    queryParameters: {'id': data},
+                  ).toString());
                 },
-                trailing: const Icon(Icons.navigate_next),
               );
             },
           );
