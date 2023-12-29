@@ -14,22 +14,25 @@ class _MainScreenState extends State<MainScreen> {
   final MainViewModel _mainViewModel = MainViewModel();
 
   @override
+  void initState() {
+    _mainViewModel.getAlbums();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('앨범 리스트'),
       ),
-      body: FutureBuilder<List<Album>>(
-        future: _mainViewModel.getAlbums(),
+      body: StreamBuilder<bool>(
+        initialData: false,
+        stream: _mainViewModel.isLoading,
         builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
+          if (snapshot.data == true) {
             return const Center(child: CircularProgressIndicator());
           }
-          if (snapshot.hasError) {
-            return Center(child: Text(snapshot.error.toString()));
-          }
-
-          final List<Album> albumList = snapshot.data!;
+          final List<Album> albumList = _mainViewModel.albumList;
           return ListView.builder(
             itemCount: albumList.length,
             itemBuilder: (context, index) {

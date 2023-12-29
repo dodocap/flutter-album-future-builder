@@ -23,22 +23,26 @@ class _DetailScreenState extends State<DetailScreen> {
   final DetailViewModel _detailViewModel = DetailViewModel();
 
   @override
+  void initState() {
+    _detailViewModel.getPhotos(widget._id);
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget._title),
       ),
-      body: FutureBuilder<List<Photo>>(
-        future: _detailViewModel.getPhotos(widget._id),
+      body: StreamBuilder<bool>(
+        initialData: false,
+        stream: _detailViewModel.isLoading,
         builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
+          if (snapshot.data == true) {
             return const Center(child: CircularProgressIndicator());
           }
-          if (snapshot.hasError) {
-            return Center(child: Text(snapshot.error.toString()));
-          }
 
-          final List<Photo> photoList = snapshot.data!;
+          final List<Photo> photoList = _detailViewModel.photoList;
           return Padding(
             padding: const EdgeInsets.all(16.0),
             child: GridView.builder(
