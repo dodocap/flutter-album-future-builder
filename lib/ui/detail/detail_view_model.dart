@@ -1,26 +1,15 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:orm_album_future_builder/model/photo.dart';
+import 'package:orm_album_future_builder/repository/album_repository.dart';
+import 'package:orm_album_future_builder/repository/album_repository_impl.dart';
 
-class DetailViewModel extends StatelessWidget {
-  final Photo _photo;
-  final void Function(String title, String url) onPhotoPressed;
+class DetailViewModel {
+  final AlbumRepository albumRepository = AlbumRepositoryImpl();
 
-  const DetailViewModel({
-    super.key,
-    required this.onPhotoPressed,
-    required Photo photo,
-  }) : _photo = photo;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        onPhotoPressed(_photo.title, _photo.url);
-      },
-      child: CachedNetworkImage(
-        imageUrl: _photo.thumbnailUrl,
-      ),
-    );
+  Future<List<Photo>> getPhotos(String id) async {
+    List<Photo> photoList = await albumRepository.getPhotos(id);
+    photoList.removeWhere((element) => element.id == -1);
+    return photoList;
   }
 }

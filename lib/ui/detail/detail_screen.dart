@@ -1,16 +1,14 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:orm_album_future_builder/model/photo.dart';
-import 'package:orm_album_future_builder/repository/album_repository.dart';
-import 'package:orm_album_future_builder/repository/album_repository_impl.dart';
 import 'package:orm_album_future_builder/ui/detail/detail_view_model.dart';
 
-class DetailScreen extends StatelessWidget {
+class DetailScreen extends StatefulWidget {
   final String _id;
   final String _title;
-  final AlbumRepository albumRepository = AlbumRepositoryImpl();
 
-  DetailScreen({
+  const DetailScreen({
     super.key,
     required String id,
     required String title,
@@ -18,13 +16,20 @@ class DetailScreen extends StatelessWidget {
         _title = title;
 
   @override
+  State<DetailScreen> createState() => _DetailScreenState();
+}
+
+class _DetailScreenState extends State<DetailScreen> {
+  final DetailViewModel _detailViewModel = DetailViewModel();
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(_title),
+        title: Text(widget._title),
       ),
       body: FutureBuilder<List<Photo>>(
-        future: albumRepository.getPhotos(_id),
+        future: _detailViewModel.getPhotos(widget._id),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
@@ -33,7 +38,7 @@ class DetailScreen extends StatelessWidget {
             return Center(child: Text(snapshot.error.toString()));
           }
 
-          final List<Photo> photoList = (snapshot.data!)..removeWhere((element) => element.id == -1);
+          final List<Photo> photoList = snapshot.data!;
           return Padding(
             padding: const EdgeInsets.all(16.0),
             child: GridView.builder(
@@ -45,19 +50,16 @@ class DetailScreen extends StatelessWidget {
               ),
               itemBuilder: (context, index) {
                 final Photo photo = photoList[index];
-                return DetailViewModel(
-                  photo: photo,
-                  onPhotoPressed: (title, url) {
-                    context.push(
-                      Uri(
-                        path: '/detail/photo',
-                        queryParameters: {
-                          'title': title,
-                          'url': url
-                        },
-                      ).toString()
-                    );
+                return GestureDetector(
+                  onTap: () {
+                    context.push(Uri(
+                      path: '/detail/photo',
+                      queryParameters: {'title': photo.title, 'url': photo.url},
+                    ).toString());
                   },
+                  child: CachedNetworkImage(
+                    imageUrl: photo.thumbnailUrl,
+                  ),
                 );
               },
             ),
