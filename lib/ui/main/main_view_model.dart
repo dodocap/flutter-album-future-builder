@@ -1,23 +1,31 @@
 import 'dart:async';
+import 'package:flutter/material.dart';
 import 'package:orm_album_future_builder/model/album.dart';
 import 'package:orm_album_future_builder/repository/album_repository.dart';
-import 'package:orm_album_future_builder/repository/album_repository_impl.dart';
 
-class MainViewModel {
-  final AlbumRepository _albumRepository = AlbumRepositoryImpl();
+class MainViewModel extends ChangeNotifier {
+  final AlbumRepository _albumRepository;
 
   List<Album> _albumList = [];
   List<Album> get albumList => List.unmodifiable(_albumList);
 
-  final StreamController<bool> _isLoading = StreamController();
-  Stream<bool> get isLoading => _isLoading.stream;
+  bool _isLoading = false;
+  bool get isLoading => _isLoading;
+
+
+  MainViewModel({required AlbumRepository albumRepository})
+      : _albumRepository = albumRepository {
+    getAlbums();
+  }
 
   Future<void> getAlbums() async {
-    _isLoading.add(true);
+    _isLoading = true;
+    notifyListeners();
 
     _albumList = await _albumRepository.getAlbums();
     _albumList.removeWhere((element) => element.id == -1);
 
-    _isLoading.add(false);
+    _isLoading = false;
+    notifyListeners();
   }
 }
