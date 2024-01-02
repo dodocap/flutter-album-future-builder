@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:orm_album_future_builder/model/photo.dart';
 import 'package:orm_album_future_builder/ui/detail/detail_view_model.dart';
+import 'package:provider/provider.dart';
 
 class DetailScreen extends StatefulWidget {
   final String _id;
@@ -20,56 +21,47 @@ class DetailScreen extends StatefulWidget {
 }
 
 class _DetailScreenState extends State<DetailScreen> {
-  final DetailViewModel _detailViewModel = DetailViewModel();
-
   @override
   void initState() {
-    _detailViewModel.getPhotos(widget._id);
     super.initState();
+
+    Future.microtask(() => context.read<DetailViewModel>().getPhotos(widget._id));
   }
 
   @override
   Widget build(BuildContext context) {
+    final viewModel = context.watch<DetailViewModel>();
     return Scaffold(
       appBar: AppBar(
         title: Text(widget._title),
       ),
-      body: StreamBuilder<bool>(
-        initialData: false,
-        stream: _detailViewModel.isLoading,
-        builder: (context, snapshot) {
-          if (snapshot.data == true) {
-            return const Center(child: CircularProgressIndicator());
-          }
-
-          final List<Photo> photoList = _detailViewModel.photoList;
-          return Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: GridView.builder(
-              itemCount: photoList.length,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 32,
-                mainAxisSpacing: 32,
+      body: viewModel.isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: GridView.builder(
+                itemCount: viewModel.photoList.length,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 32,
+                  mainAxisSpacing: 32,
+                ),
+                itemBuilder: (context, index) {
+                  final Photo photo = viewModel.photoList[index];
+                  return GestureDetector(
+                    onTap: () {
+                      context.push(Uri(
+                        path: '/detail/photo',
+                        queryParameters: {'title': photo.title, 'url': photo.url},
+                      ).toString());
+                    },
+                    child: CachedNetworkImage(
+                      imageUrl: photo.thumbnailUrl
+                    ),
+                  );
+                },
               ),
-              itemBuilder: (context, index) {
-                final Photo photo = photoList[index];
-                return GestureDetector(
-                  onTap: () {
-                    context.push(Uri(
-                      path: '/detail/photo',
-                      queryParameters: {'title': photo.title, 'url': photo.url},
-                    ).toString());
-                  },
-                  child: CachedNetworkImage(
-                    imageUrl: photo.thumbnailUrl,
-                  ),
-                );
-              },
             ),
-          );
-        },
-      ),
     );
   }
 }
