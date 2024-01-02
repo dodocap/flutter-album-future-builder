@@ -19,6 +19,7 @@ class PhotoScreen extends StatelessWidget {
       body: Center(
         child: CachedNetworkImage(
           imageUrl: _url,
+          placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
         ),
       ),
     );

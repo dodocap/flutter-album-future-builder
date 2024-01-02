@@ -56,7 +56,8 @@ class _DetailScreenState extends State<DetailScreen> {
                       ).toString());
                     },
                     child: CachedNetworkImage(
-                      imageUrl: photo.thumbnailUrl
+                      imageUrl: photo.thumbnailUrl,
+                      placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
                     ),
                   );
                 },
