@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:orm_album_future_builder/di/di_setup.dart';
 import 'package:orm_album_future_builder/ui/routes.dart';
 
 void main() {
+  diSetup();
   runApp(const MyApp());
 }
 

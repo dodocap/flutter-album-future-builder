@@ -9,7 +9,9 @@ import 'package:orm_album_future_builder/model/photo.dart';
 import 'package:orm_album_future_builder/repository/album_repository.dart';
 
 class AlbumRepositoryImpl implements AlbumRepository {
-  final AlbumApi _api = JsonPlaceholderAlbumApiImpl();
+  final AlbumApi _api;
+
+  AlbumRepositoryImpl({required AlbumApi api}) : _api = api;
 
   @override
   Future<List<Album>> getAlbums() async {

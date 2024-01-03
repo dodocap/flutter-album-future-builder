@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:orm_album_future_builder/di/di_setup.dart';
 import 'package:orm_album_future_builder/repository/album_repository_impl.dart';
 import 'package:orm_album_future_builder/ui/detail/detail_screen.dart';
 import 'package:orm_album_future_builder/ui/detail/detail_view_model.dart';
@@ -13,7 +14,7 @@ final routes = GoRouter(
     GoRoute(
       path: '/',
       builder: (_, __) => ChangeNotifierProvider(
-        create: (_) => MainViewModel(albumRepository: AlbumRepositoryImpl()),
+        create: (_) => getIt<MainViewModel>(),
         child: const MainScreen(),
       ),
       routes: [
@@ -23,7 +24,7 @@ final routes = GoRouter(
             final String id = state.uri.queryParameters['id']!;
             final String title = state.uri.queryParameters['title']!;
             return ChangeNotifierProvider(
-              create: (context) => DetailViewModel(albumRepository: AlbumRepositoryImpl()),
+              create: (context) => getIt<DetailViewModel>(),
               child: DetailScreen(id: id, title: title),
             );
           },
