@@ -31,23 +31,24 @@ class _DetailScreenState extends State<DetailScreen> {
   @override
   Widget build(BuildContext context) {
     final viewModel = context.watch<DetailViewModel>();
+    final state = viewModel.state;
     return Scaffold(
       appBar: AppBar(
         title: Text(widget._title),
       ),
-      body: viewModel.isLoading
+      body: state.isLoading
           ? const Center(child: CircularProgressIndicator())
           : Padding(
               padding: const EdgeInsets.all(16.0),
               child: GridView.builder(
-                itemCount: viewModel.photoList.length,
+                itemCount: state.photoList.length,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   crossAxisSpacing: 32,
                   mainAxisSpacing: 32,
                 ),
                 itemBuilder: (context, index) {
-                  final Photo photo = viewModel.photoList[index];
+                  final Photo photo = state.photoList[index];
                   return GestureDetector(
                     onTap: () {
                       context.push(Uri(

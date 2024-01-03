@@ -10,16 +10,23 @@ class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final viewModel = context.watch<MainViewModel>();
+    final state = viewModel.state;
     return Scaffold(
       appBar: AppBar(
         title: const Text('앨범 리스트'),
+        actions: [
+          IconButton(
+            onPressed: viewModel.getAlbums,
+            icon: const Icon(Icons.refresh),
+          )
+        ],
       ),
-      body: viewModel.isLoading
+      body: state.isLoading
           ? const Center(child: CircularProgressIndicator())
           : ListView.builder(
-              itemCount: viewModel.albumList.length,
+              itemCount: state.albumList.length,
               itemBuilder: (context, index) {
-                final Album album = viewModel.albumList[index];
+                final Album album = state.albumList[index];
                 return ListTile(
                   title: Text(album.title),
                   onTap: () => context.push(Uri(
