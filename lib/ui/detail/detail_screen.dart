@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:orm_album_future_builder/core/ui_event.dart';
 import 'package:orm_album_future_builder/model/photo.dart';
 import 'package:orm_album_future_builder/ui/detail/detail_view_model.dart';
 import 'package:provider/provider.dart';
@@ -21,11 +24,28 @@ class DetailScreen extends StatefulWidget {
 }
 
 class _DetailScreenState extends State<DetailScreen> {
+  StreamSubscription? _uiEventSubscription;
+
   @override
   void initState() {
     super.initState();
 
-    Future.microtask(() => context.read<DetailViewModel>().getPhotos(widget._id));
+    Future.microtask(() {
+      final viewModel = context.read<DetailViewModel>();
+      _uiEventSubscription = viewModel.eventStream.listen((event) {
+        switch (event) {
+          case ShowSnackBar():
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(event.msg)));
+        }
+      });
+      viewModel.getPhotos(widget._id);
+    });
+  }
+
+  @override
+  void dispose() {
+    _uiEventSubscription?.cancel();
+    super.dispose();
   }
 
   @override

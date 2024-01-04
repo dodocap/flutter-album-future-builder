@@ -1,5 +1,5 @@
 import 'package:orm_album_future_builder/api/album_api.dart';
-import 'package:orm_album_future_builder/api/json_placeholder_album_api_impl.dart';
+import 'package:orm_album_future_builder/core/result.dart';
 import 'package:orm_album_future_builder/dto/album_dto.dart';
 import 'package:orm_album_future_builder/dto/photo_dto.dart';
 import 'package:orm_album_future_builder/mapper/album_mapper.dart';
@@ -14,16 +14,22 @@ class AlbumRepositoryImpl implements AlbumRepository {
   AlbumRepositoryImpl({required AlbumApi api}) : _api = api;
 
   @override
-  Future<List<Album>> getAlbums() async {
-    final List<AlbumDto> albumDto = await _api.getAlbums();
+  Future<Result<List<Album>>> getAlbums() async {
+    final Result<List<AlbumDto>> albumDtoResult = await _api.getAlbums();
 
-    return albumDto.map((e) => e.mapper()).toList();
+    return albumDtoResult.when(
+      success: (data) => Result.success(data.map((e) => e.mapper()).toList()),
+      error: (e) => Result.error(e),
+    );
   }
 
   @override
-  Future<List<Photo>> getPhotos(String id) async {
-    final List<PhotoDto> photoDto = await _api.getPhotos(id);
+  Future<Result<List<Photo>>> getPhotos(String id) async {
+    final Result<List<PhotoDto>> photoDtoResult = await _api.getPhotos(id);
 
-    return photoDto.map((e) => e.mapper()).toList();
+    return photoDtoResult.when(
+      success: (data) => Result.success(data.map((e) => e.mapper()).toList()),
+      error: (e) => Result.error(e),
+    );
   }
 }

@@ -2,25 +2,35 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:orm_album_future_builder/api/album_api.dart';
+import 'package:orm_album_future_builder/core/constants.dart';
+import 'package:orm_album_future_builder/core/result.dart';
 import 'package:orm_album_future_builder/dto/album_dto.dart';
 import 'package:orm_album_future_builder/dto/photo_dto.dart';
 
 class JsonPlaceholderAlbumApiImpl implements AlbumApi {
   @override
-  Future<List<AlbumDto>> getAlbums() async {
-    final http.Response response = await http.get(Uri.parse('https://jsonplaceholder.typicode.com/albums'));
+  Future<Result<List<AlbumDto>>> getAlbums() async {
+    try {
+      final http.Response response = await http.get(Uri.parse('https://jsonplaceholder.typicode.com/albums'));
 
-    final list = jsonDecode(response.body) as List<dynamic>;
+      final list = jsonDecode(response.body) as List<dynamic>;
 
-    return list.map((e) => AlbumDto.fromJson(e)).toList();
+      return Result.success(list.map((e) => AlbumDto.fromJson(e)).toList());
+    } catch (e) {
+      return const Result.error(errNetwork);
+    }
   }
 
   @override
-  Future<List<PhotoDto>> getPhotos(String id) async {
-    final http.Response response = await http.get(Uri.parse('https://jsonplaceholder.typicode.com/albums/$id/photos'));
+  Future<Result<List<PhotoDto>>> getPhotos(String id) async {
+    try {
+      final http.Response response = await http.get(Uri.parse('https://sonplaceholder.typicode.com/albums/$id/photos'));
 
-    final list = jsonDecode(response.body) as List<dynamic>;
+      final list = jsonDecode(response.body) as List<dynamic>;
 
-    return list.map((e) => PhotoDto.fromJson(e)).toList();
+      return Result.success(list.map((e) => PhotoDto.fromJson(e)).toList());
+    } catch (e) {
+      return const Result.error(errNetwork);
+    }
   }
 }

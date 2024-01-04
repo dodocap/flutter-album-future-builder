@@ -1,11 +1,42 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:orm_album_future_builder/core/ui_event.dart';
 import 'package:orm_album_future_builder/model/album.dart';
 import 'package:orm_album_future_builder/ui/main/main_view_model.dart';
 import 'package:provider/provider.dart';
 
-class MainScreen extends StatelessWidget {
+class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
+
+  @override
+  State<MainScreen> createState() => _MainScreenState();
+}
+
+class _MainScreenState extends State<MainScreen> {
+  StreamSubscription? _uiEventSubscription;
+
+  @override
+  void initState() {
+    Future.microtask(() {
+      final viewModel = context.read<MainViewModel>();
+      _uiEventSubscription = viewModel.eventStream.listen((event) {
+        switch (event) {
+          case ShowSnackBar():
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(event.msg)));
+        }
+      });
+      viewModel.getAlbums();
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _uiEventSubscription?.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
