@@ -76,9 +76,12 @@ class _DetailScreenState extends State<DetailScreen> {
                         queryParameters: {'title': photo.title, 'url': photo.url},
                       ).toString());
                     },
-                    child: CachedNetworkImage(
-                      imageUrl: photo.thumbnailUrl,
-                      placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
+                    child: Hero(
+                      tag: photo.title,
+                      child: CachedNetworkImage(
+                        imageUrl: photo.thumbnailUrl,
+                        placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
+                      ),
                     ),
                   );
                 },

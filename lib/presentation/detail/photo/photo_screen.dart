@@ -17,9 +17,12 @@ class PhotoScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text(_title)),
       body: Center(
-        child: CachedNetworkImage(
-          imageUrl: _url,
-          placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
+        child: Hero(
+          tag: _title,
+          child: CachedNetworkImage(
+            imageUrl: _url,
+            placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
+          ),
         ),
       ),
     );
