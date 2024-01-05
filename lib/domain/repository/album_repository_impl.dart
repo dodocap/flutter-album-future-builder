@@ -1,12 +1,12 @@
-import 'package:orm_album_future_builder/api/album_api.dart';
 import 'package:orm_album_future_builder/core/result.dart';
-import 'package:orm_album_future_builder/dto/album_dto.dart';
-import 'package:orm_album_future_builder/dto/photo_dto.dart';
-import 'package:orm_album_future_builder/mapper/album_mapper.dart';
-import 'package:orm_album_future_builder/mapper/photo_mapper.dart';
-import 'package:orm_album_future_builder/model/album.dart';
-import 'package:orm_album_future_builder/model/photo.dart';
-import 'package:orm_album_future_builder/repository/album_repository.dart';
+import 'package:orm_album_future_builder/data/api/album_api.dart';
+import 'package:orm_album_future_builder/data/dto/album_dto.dart';
+import 'package:orm_album_future_builder/data/dto/photo_dto.dart';
+import 'package:orm_album_future_builder/data/mapper/album_mapper.dart';
+import 'package:orm_album_future_builder/data/mapper/photo_mapper.dart';
+import 'package:orm_album_future_builder/data/repository/album_repository.dart';
+import 'package:orm_album_future_builder/domain/model/album.dart';
+import 'package:orm_album_future_builder/domain/model/photo.dart';
 
 class AlbumRepositoryImpl implements AlbumRepository {
   final AlbumApi _api;

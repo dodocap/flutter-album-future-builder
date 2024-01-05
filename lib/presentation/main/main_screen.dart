@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:orm_album_future_builder/core/ui_event.dart';
-import 'package:orm_album_future_builder/model/album.dart';
-import 'package:orm_album_future_builder/ui/main/main_view_model.dart';
+import 'package:orm_album_future_builder/domain/model/album.dart';
+import 'package:orm_album_future_builder/presentation/main/main_view_model.dart';
 import 'package:provider/provider.dart';
 
 class MainScreen extends StatefulWidget {

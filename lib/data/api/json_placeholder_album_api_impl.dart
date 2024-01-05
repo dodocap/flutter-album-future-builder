@@ -1,11 +1,11 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:orm_album_future_builder/api/album_api.dart';
 import 'package:orm_album_future_builder/core/constants.dart';
 import 'package:orm_album_future_builder/core/result.dart';
-import 'package:orm_album_future_builder/dto/album_dto.dart';
-import 'package:orm_album_future_builder/dto/photo_dto.dart';
+import 'package:orm_album_future_builder/data/api/album_api.dart';
+import 'package:orm_album_future_builder/data/dto/album_dto.dart';
+import 'package:orm_album_future_builder/data/dto/photo_dto.dart';
 
 class JsonPlaceholderAlbumApiImpl implements AlbumApi {
   @override

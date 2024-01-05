@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:orm_album_future_builder/model/album.dart';
+import 'package:orm_album_future_builder/domain/model/album.dart';
 
 part 'main_state.freezed.dart';
 part 'main_state.g.dart';

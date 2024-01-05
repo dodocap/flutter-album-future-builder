@@ -2,15 +2,14 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:orm_album_future_builder/core/result.dart';
 import 'package:orm_album_future_builder/core/ui_event.dart';
-import 'package:orm_album_future_builder/model/album.dart';
-import 'package:orm_album_future_builder/repository/album_repository.dart';
-import 'package:orm_album_future_builder/ui/main/main_state.dart';
+import 'package:orm_album_future_builder/domain/model/album.dart';
+import 'package:orm_album_future_builder/domain/use_case/get_album_use_case.dart';
+import 'package:orm_album_future_builder/presentation/main/main_state.dart';
 
 class MainViewModel extends ChangeNotifier {
-  final AlbumRepository _albumRepository;
+  final GetAlbumUseCase _getAlbumUseCase;
 
-  MainViewModel({required AlbumRepository albumRepository})
-      : _albumRepository = albumRepository;
+  MainViewModel({required GetAlbumUseCase getAlbumUseCase}) : _getAlbumUseCase = getAlbumUseCase;
 
   MainState _state = const MainState();
   MainState get state => _state;
@@ -22,10 +21,9 @@ class MainViewModel extends ChangeNotifier {
     _state = _state.copyWith(isLoading: true);
     notifyListeners();
 
-    final Result<List<Album>> albumListResult = await _albumRepository.getAlbums();
+    final Result<List<Album>> albumListResult = await _getAlbumUseCase.execute();
     albumListResult.when(
       success: (data) {
-        data.removeWhere((element) => element.id == -1);
         _state = _state.copyWith(isLoading: false, albumList: data);
       },
       error: (e) {
@@ -33,7 +31,6 @@ class MainViewModel extends ChangeNotifier {
         _eventController.add(UiEvent.showSnackBar(e));
       },
     );
-
     notifyListeners();
   }
 }

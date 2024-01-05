@@ -1,11 +1,10 @@
 import 'package:go_router/go_router.dart';
 import 'package:orm_album_future_builder/di/di_setup.dart';
-import 'package:orm_album_future_builder/repository/album_repository_impl.dart';
-import 'package:orm_album_future_builder/ui/detail/detail_screen.dart';
-import 'package:orm_album_future_builder/ui/detail/detail_view_model.dart';
-import 'package:orm_album_future_builder/ui/detail/photo/photo_screen.dart';
-import 'package:orm_album_future_builder/ui/main/main_screen.dart';
-import 'package:orm_album_future_builder/ui/main/main_view_model.dart';
+import 'package:orm_album_future_builder/presentation/detail/detail_screen.dart';
+import 'package:orm_album_future_builder/presentation/detail/detail_view_model.dart';
+import 'package:orm_album_future_builder/presentation/detail/photo/photo_screen.dart';
+import 'package:orm_album_future_builder/presentation/main/main_screen.dart';
+import 'package:orm_album_future_builder/presentation/main/main_view_model.dart';
 import 'package:provider/provider.dart';
 
 final routes = GoRouter(

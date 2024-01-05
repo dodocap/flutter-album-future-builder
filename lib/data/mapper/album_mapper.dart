@@ -1,5 +1,5 @@
-import 'package:orm_album_future_builder/dto/album_dto.dart';
-import 'package:orm_album_future_builder/model/album.dart';
+import 'package:orm_album_future_builder/data/dto/album_dto.dart';
+import 'package:orm_album_future_builder/domain/model/album.dart';
 
 extension AlbumDtoToModel on AlbumDto {
   Album mapper() {

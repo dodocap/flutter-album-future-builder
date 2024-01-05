@@ -4,8 +4,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:orm_album_future_builder/core/ui_event.dart';
-import 'package:orm_album_future_builder/model/photo.dart';
-import 'package:orm_album_future_builder/ui/detail/detail_view_model.dart';
+import 'package:orm_album_future_builder/domain/model/photo.dart';
+import 'package:orm_album_future_builder/presentation/detail/detail_view_model.dart';
 import 'package:provider/provider.dart';
 
 class DetailScreen extends StatefulWidget {

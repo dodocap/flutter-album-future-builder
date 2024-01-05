@@ -1,5 +1,5 @@
-import 'package:orm_album_future_builder/dto/photo_dto.dart';
-import 'package:orm_album_future_builder/model/photo.dart';
+import 'package:orm_album_future_builder/data/dto/photo_dto.dart';
+import 'package:orm_album_future_builder/domain/model/photo.dart';
 
 extension PhotoDtoToModel on PhotoDto {
   Photo mapper() {
